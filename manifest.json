@@ -1,0 +1,19 @@
+{
+  "name": "SpotGPT",
+  "short_name": "SpotGPT",
+  "start_url": "/SpotGPT-frontend/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "id": "SpotGPT",
+  "lang": "en-US",
+  "description": "SpotGPT is a free and open-source web app that allows you to listen to sibi's Playlist on Spotify without ads.",
+  "icons": [
+    {
+      "src": "./SpotGPT_logo.png",
+      "sizes": "50x50",
+      "type": "image/png"
+    }
+  ]
+}
