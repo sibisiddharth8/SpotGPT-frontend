@@ -50,27 +50,26 @@ const PlayerContextProvider = (props) => {
   const next = async () => {
     let nextTrack;
     if (currentAlbum) {
-      // Filter songs by the current album
       const albumSongs = songsData.filter((song) => song.album === currentAlbum);
       const currentIndex = albumSongs.findIndex((song) => song._id === track._id);
-
+  
       if (currentIndex >= 0 && currentIndex < albumSongs.length - 1) {
         nextTrack = albumSongs[currentIndex + 1];
       }
     } else {
-      // Normal behavior when no album is selected (use full song list)
       const currentIndex = songsData.findIndex((song) => song._id === track._id);
       if (currentIndex >= 0 && currentIndex < songsData.length - 1) {
         nextTrack = songsData[currentIndex + 1];
       }
     }
-
+  
     if (nextTrack) {
-      await setTrack(nextTrack); // Set the next song
-      await audioRef.current.play();
+      setTrack(nextTrack); 
+      audioRef.current.play();
       setPlayStatus(true);
     }
   };
+  
 
   // Function to get the previous song based on the current album
   const previous = async () => {
@@ -126,15 +125,16 @@ const PlayerContextProvider = (props) => {
     getAlbumsData();
   }, []);
 
+
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.ontimeupdate = () => {
         const current = audioRef.current.currentTime;
         const duration = audioRef.current.duration || 0;
         const progress = (current / duration) * 100;
-
+  
         seekBar.current.style.width = progress + '%';
-
+  
         setTime({
           currentTime: {
             second: Math.floor(current % 60),
@@ -145,13 +145,10 @@ const PlayerContextProvider = (props) => {
             minute: Math.floor(duration / 60),
           },
         });
-
-        if (progress >= 100) {
-          next();
-        }
       };
     }
   }, [audioRef, track, songsData]);
+  
 
   const contextValue = {
     audioRef,
