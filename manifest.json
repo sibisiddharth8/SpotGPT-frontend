@@ -11,32 +11,32 @@
   "description": "SpotGPT is a free and open-source web app that allows you to listen to sibi's Playlist on Spotify without ads.",
   "icons": [
     {
-      "src": "./SpotGPT_logo144x144.png",
+      "src": "/SpotGPT-frontend/SpotGPT_logo144x144.png",
       "sizes": "144x144",
       "type": "image/png"
     },
     {
-      "src": "./SpotGPT_logo192x192.png",
+      "src": "/SpotGPT-frontend/SpotGPT_logo192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "./SpotGPT_logo256x256.png",
+      "src": "/SpotGPT-frontend/SpotGPT_logo256x256.png",
       "sizes": "256x256",
       "type": "image/png"
     },
     {
-      "src": "./SpotGPT_logo300x300.png",
+      "src": "/SpotGPT-frontend/SpotGPT_logo300x300.png",
       "sizes": "300x300",
       "type": "image/png"
     },
     {
-      "src": "./SpotGPT_logo384x384.png",
+      "src": "/SpotGPT-frontend/SpotGPT_logo384x384.png",
       "sizes": "384x384",
       "type": "image/png"
     },
     {
-      "src": "./SpotGPT_logo512x512.png",
+      "src": "/SpotGPT-frontend/SpotGPT_logo512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
