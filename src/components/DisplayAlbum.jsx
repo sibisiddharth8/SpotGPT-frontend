@@ -41,7 +41,7 @@ const DisplayAlbum = ({ album }) => {
           <h2 className="text-5xl font-bold mb-4 md:text-7xl">{albumData.name}</h2>
           <h4>{albumData.desc}</h4>
           <p>
-            <img className="inline-block w-5 m-1" src={assets.spotify_logo} alt="" />
+            <img className="inline-block w-5 m-1" src={assets.spotGPT_logo} alt="" />
             <b className="text-[14px]">SpotGPT • <span className='text-[14px] font-semibold'>1084 likes</span></b> 
           </p>
           <b className="text-[14px] font-medium m-1">{albumSongs.length} songs, about {displayDuration}</b> 
