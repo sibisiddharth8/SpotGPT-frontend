@@ -1,4 +1,4 @@
-![SpotGPT Logo](./src/assets/spotify_logo.png)
+![SpotGPT Logo](./src/assets/SpotGPT_logo.png)
 
 # SpotGPT 🎵
 **SpotGPT** is an innovative **Spotify-like music app**—a **clone** built with the **MERN stack** (MongoDB, Express.js, React.js, Node.js) and **Cloudinary** for seamless cloud storage. Designed with both **mobile** and **desktop** users in mind, **SpotGPT** was created to provide an **ad-free** music experience, eliminating the distractions that come with Spotify's free version. It's a **personal project** made to enhance my own listening experience—now, you can enjoy it too!
