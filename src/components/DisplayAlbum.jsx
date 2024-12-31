@@ -8,6 +8,8 @@ const DisplayAlbum = ({ album }) => {
   const { id } = useParams();
   const [albumData, setAlbumData] = useState('');
   const { playWithId, albumsData, songsData } = useContext(PlayerContext);
+  const isAlbum = location.pathname.includes("album");
+  const bgColor = isAlbum && albumsData.length>0 ? albumsData.find((x)=>(x._id == albumId)).bgColor : "#121212";
 
   useEffect(() => {
     albumsData.map((item) => {
@@ -33,7 +35,10 @@ const DisplayAlbum = ({ album }) => {
 
   return albumData ? (
     <>
-      <Navbar />
+      <div className='sticky top-0 z-50 bg-[#121212] bg-opacity-60 pl-5 pr-5 p-4 rounded-full'>
+        <Navbar showDetails={false} />
+      </div>
+      
       <div className="mt-10 flex gap-8 flex-col md:flex-row md:items-end">
         <img className="w-48 rounded" src={albumData.image} alt="" />
         <div className="flex flex-col">
@@ -64,7 +69,7 @@ const DisplayAlbum = ({ album }) => {
           className="grid grid-cols-[2fr_1fr] sm:grid-cols-3 gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer"
         >
           <p className="text-white w-[23ch] truncate sm:w-full">
-            <b className="mr-4 text-[#a7a7a7]">{index + 1}</b>
+            <b className="mr-2 text-[#a7a7a7] inline-block text-center w-[3ch]">{index + 1}</b>
             <img className="inline w-10 h-10 mr-5" src={item.image} alt="" />
             {item.name}
           </p>

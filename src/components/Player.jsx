@@ -7,12 +7,11 @@ const Player = () => {
   const {seekBar, seekBg, playStatus, play, pause, track, time, previous, next, seekSong} = useContext(PlayerContext);
   
   return track ? (
-    <div className='fixed bottom-0 w-full h-[10%] max-h-[80px] bg-black flex justify-between items-center text-white px-4 z-50'>
-      <div className=' hidden lg:flex items-center gap-4'>
-        <img className='w-12' src={track.image} alt="" />
+    <div className='fixed bottom-0 w-full h-[10%] max-h-[85px] min-h-[60px] bg-black flex justify-between items-center text-white px-4 z-50'>
+      <div className=' hidden lg:flex items-center gap-4 w-[200px]'>
+        <img className='w-12 h-12 object-cover' src={track.image} alt="" />
         <div>
             <p>{track.name}</p>
-            <p>{track.desc.slice(0,12)}</p>
         </div>
       </div>
       <div className='flex flex-col items-center gap-1.5 m-auto'>
