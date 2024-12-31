@@ -7,7 +7,7 @@ const Navbar = ({ showDetails = true }) => {
 
   return (
     <div className=''>
-      <div className="w-full flex justify-between items-center font-semibold">
+      <div className="w-full flex justify-between items-center font-semibold pt-1.5 pb-1.5">
         <div className="flex items-center gap-2">
           <img
             onClick={() => navigate(-1)}
@@ -30,7 +30,7 @@ const Navbar = ({ showDetails = true }) => {
           <p className="bg-black py-1 px-3 rounded-2xl text-[15px] cursor-pointer">
             Install App
           </p>
-          
+
           <p className="bg-purple-500 text-black w-7 h-7 rounded-full flex items-center justify-center">
             S
           </p>
