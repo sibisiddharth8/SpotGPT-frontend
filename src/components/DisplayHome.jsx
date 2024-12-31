@@ -11,7 +11,7 @@ const DisplayHome = () => {
   return (
     <>
       <Navbar />
-      <div className='mb-4'>
+      <div className=''>
         <h1 className='my-5 font-bold text-2xl '>Top Playlists</h1>
         <div className='flex overflow-auto'>
         {albumsData.map((item, index) => (
@@ -39,7 +39,7 @@ const DisplayHome = () => {
         ))}
         </div>
       </div>
-      <div className='text-center p-2 text-[12px]'>
+      <div className='text-center mb-[60px] text-[12px]'>
         Designed and Developed by <a href='https://sibisiddharth8.github.io/portfolio-react/' className='text-[12px] font-bold cursor-pointer text-nowrap'> © Sibi Siddharth S</a>
       </div>
     </>

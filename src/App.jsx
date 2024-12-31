@@ -14,10 +14,10 @@ const App = () => {
   }, []);
 
   return (
-    <div className='h-screen bg-black'>
+    <div className='bg-black'>
       {songsData.length !== 0 ? (
         <>
-          <div className='h-[90%] flex '>
+          <div className=' flex '>
             <Sidebar />
             <Display />
           </div>

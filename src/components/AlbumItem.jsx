@@ -11,7 +11,7 @@ const AlbumItem = ({ image, name, desc, id }) => {
   return (
     <div
       onClick={handleNavigation}
-      className='min-w-[150px] min-h-[150px] p-2 px-3 rounded cursor-pointer hover:bg-[#ffffff26]'
+      className='min-w-[150px] min-h-[150px] p-3 rounded cursor-pointer hover:bg-[#ffffff26]'
     >
       <img className='rounded' src={image} alt="" />
       <p className='font-bold mt-2 mb-1'>{name}</p>
