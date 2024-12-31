@@ -4,12 +4,10 @@ import { useParams } from 'react-router-dom';
 import { assets } from '../assets/assets';
 import { PlayerContext } from '../context/PlayerContext';
 
-const DisplayAlbum = ({ album }) => {
+const DisplayAlbum = () => {
   const { id } = useParams();
   const [albumData, setAlbumData] = useState('');
   const { playWithId, albumsData, songsData } = useContext(PlayerContext);
-  const isAlbum = location.pathname.includes("album");
-  const bgColor = isAlbum && albumsData.length>0 ? albumsData.find((x)=>(x._id == albumId)).bgColor : "#121212";
 
   useEffect(() => {
     albumsData.map((item) => {

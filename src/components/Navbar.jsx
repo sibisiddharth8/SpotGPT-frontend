@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { assets } from '../assets/assets';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ showDetails = true }) => {
+
+  const poftfolioLink = 'https://sibisiddharth8.github.io/portfolio-react/';
   const navigate = useNavigate();
 
   return (
@@ -31,9 +34,9 @@ const Navbar = ({ showDetails = true }) => {
             Install App
           </p>
 
-          <p className="bg-purple-500 text-black w-9 h-9 rounded-full flex items-center justify-center">
+          <Link to={poftfolioLink} className="bg-purple-500 text-black w-9 h-9 rounded-full flex items-center justify-center hover:cursor-pointer">
             S
-          </p>
+          </Link>
         </div>
       </div>
       {showDetails && (
