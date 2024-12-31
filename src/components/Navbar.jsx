@@ -34,7 +34,7 @@ const Navbar = ({ showDetails = true }) => {
             Install App
           </p>
 
-          <Link to={poftfolioLink} className="bg-purple-500 text-black w-9 h-9 rounded-full flex items-center justify-center hover:cursor-pointer">
+          <Link className="bg-purple-500 text-black w-9 h-9 rounded-full flex items-center justify-center hover:cursor-pointer">
             S
           </Link>
         </div>
