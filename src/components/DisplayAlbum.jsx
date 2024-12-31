@@ -66,7 +66,7 @@ const DisplayAlbum = ({ album }) => {
         <div
           onClick={() => playWithId(item._id)}
           key={index}
-          className="grid grid-cols-[2fr_1fr] sm:grid-cols-3 gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer"
+          className="grid grid-cols-[2fr_1fr] sm:grid-cols-3 gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer rounded"
         >
           <p className="text-white w-[23ch] truncate sm:w-full">
             <b className="mr-2 text-[#a7a7a7] inline-block text-center w-[3ch]">{index + 1}</b>
