@@ -25,7 +25,7 @@ const DisplayHome = () => {
         ))}
         </div>
       </div>
-      <div className='mb-4'>
+      <div className='mb-40'>
         <h1 className='my-5 font-bold text-2xl '>Todays Biggest Hits</h1>
         <div className='flex overflow-auto'>
         {songsData.map((item, index) => (
