@@ -27,11 +27,11 @@ const Navbar = ({ showDetails = true }) => {
             Explore Premium
           </p>
 
-          <p className="bg-black py-1 px-3 rounded-2xl text-[15px] cursor-pointer">
+          <p className="bg-black py-1 px-3 rounded-2xl text-[15px] cursor-pointer hidden md:block">
             Install App
           </p>
 
-          <p className="bg-purple-500 text-black w-7 h-7 rounded-full flex items-center justify-center">
+          <p className="bg-purple-500 text-black w-9 h-9 rounded-full flex items-center justify-center">
             S
           </p>
         </div>
