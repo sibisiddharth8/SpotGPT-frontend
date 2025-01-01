@@ -53,7 +53,7 @@ const DisplayAlbum = () => {
       <div className="grid grid-cols-[2fr_1fr] sm:grid-cols-3 mt-8 sm:mt-10 mb-4 pl-2 text-[#a7a7a7]">
         <p>
           <b className="mr-4">#</b>
-          <b className="m-auto">Title</b>
+          <b className="ml-2">Title</b>
         </p>
   
         <p className="hidden sm:block">Date Added</p>
@@ -67,8 +67,8 @@ const DisplayAlbum = () => {
           className="grid grid-cols-[2fr_1fr] sm:grid-cols-3 gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer rounded"
         >
           <p className="text-white w-[23ch] truncate sm:w-full">
-            <b className="mr-2 text-[#a7a7a7] inline-block text-center w-[3ch]">{index + 1}</b>
-            <img className="inline w-10 h-10 mr-5" src={item.image} alt="" />
+            <b className="mr-2 text-[#a7a7a7] inline-block text-start w-[3ch]">{index + 1}</b>
+            <img className="inline w-10 h-10 mr-5 object-cover rounded" src={item.image} alt="" />
             {item.name}
           </p>
  
@@ -76,6 +76,7 @@ const DisplayAlbum = () => {
           <p className="text-[15px] text-center">{item.duration}</p>
         </div>
       ))}
+      <div className='mb-20'></div>
     </>
   ) : null;
 };

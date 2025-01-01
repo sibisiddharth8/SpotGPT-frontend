@@ -8,14 +8,14 @@ const Player = () => {
   
   return track ? (
     <div className='fixed bottom-0 w-full min-h-[80px] bg-black flex justify-between items-center text-white px-4 z-50'>
-      <div className='lg:flex items-center gap-4'>
-        <img className='w-10 h-10 object-cover rounded' src={track.image} alt="" />
+      <div className='lg:flex items-center gap-4 lg:w-[200px]'>
+        <img className='w-11 h-11 object-cover rounded' src={track.image} alt="" />
         <div className='hidden lg:block'>
             <p>{track.name}</p>
         </div>
       </div>
       <div className='flex flex-col items-center gap-1.5 m-auto'>
-            <div className='flex gap-4 pb-2 pt-1 sm:pt-3 sm:pb-0'>
+            <div className='flex gap-4 pb-2 sm:pt-3 sm:pb-1'>
                 <img className='w-4 m-[1px] cursor-pointer' src={assets.shuffle_icon} alt="" />
                 <img onClick={previous} className='w-4 m-[1px] cursor-pointer' src={assets.prev_icon} alt="" />
                 {
@@ -28,7 +28,7 @@ const Player = () => {
             </div>
             <div className='flex items-center gap-5'>
                 <p className='hidden sm:block'>{time.currentTime.minute}:{time.currentTime.second}</p>
-                <div onClick={seekSong} ref={seekBg} className='w-[70vw] max-w-[500px] bg-gray-300 rounded-full cursor-pointer'>
+                <div onClick={seekSong} ref={seekBg} className='w-[70vw] mt-1 sm:mt-0 max-w-[500px] bg-gray-300 rounded-full cursor-pointer'>
                     <hr ref={seekBar} className='h-1 border-none w-0 bg-green-800 rounded-full'/>
                 </div>
                 <p className='hidden sm:block'>{time.totalTime.minute}:{time.totalTime.second}</p>

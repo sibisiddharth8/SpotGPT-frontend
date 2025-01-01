@@ -25,7 +25,7 @@ const DisplayHome = () => {
         ))}
         </div>
       </div>
-      <div className='mb-40'>
+      <div className='mb-4'>
         <h1 className='my-5 font-bold text-2xl '>Todays Biggest Hits</h1>
         <div className='flex overflow-auto'>
         {songsData.map((item, index) => (
@@ -39,7 +39,8 @@ const DisplayHome = () => {
         ))}
         </div>
       </div>
-      <div className='text-center mb-[60px] text-[12px]'>
+      <div className='mb-20'></div>
+      <div className='text-center mb-[80px] text-[12px]'>
         Designed and Developed by <a href='https://sibisiddharth8.github.io/portfolio-react/' className='text-[12px] font-bold cursor-pointer text-nowrap'> © Sibi Siddharth S</a>
       </div>
     </>
