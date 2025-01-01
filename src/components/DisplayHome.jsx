@@ -9,11 +9,11 @@ const DisplayHome = () => {
   const { songsData, albumsData } = useContext(PlayerContext);
 
   return (
-    <>
+    <div className='pb-[80px]'>
       <Navbar />
-      <div className=''>
+      <div className='mb-10'>
         <h1 className='my-5 font-bold text-2xl '>Top Playlists</h1>
-        <div className='flex overflow-auto'>
+        <div className='grid grid-cols-2 gap-2'>
         {albumsData.map((item, index) => (
           <AlbumItem
             key={index}
@@ -25,8 +25,8 @@ const DisplayHome = () => {
         ))}
         </div>
       </div>
-      <div className='mb-4'>
-        <h1 className='my-5 font-bold text-2xl '>Todays Biggest Hits</h1>
+      <div className='mb-10'>
+        <h1 className='my-3 font-bold text-2xl '>Todays Biggest Hits</h1>
         <div className='flex overflow-auto'>
         {songsData.map((item, index) => (
           <SongItem
@@ -39,11 +39,7 @@ const DisplayHome = () => {
         ))}
         </div>
       </div>
-      <div className='mb-20'></div>
-      <div className='text-center mb-[80px] text-[12px]'>
-        Designed and Developed by <a href='https://sibisiddharth8.github.io/portfolio-react/' className='text-[12px] font-bold cursor-pointer text-nowrap'> © Sibi Siddharth S</a>
-      </div>
-    </>
+    </div>
   );
 };
 
