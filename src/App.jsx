@@ -14,7 +14,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className='bg-black'>
+    <div className='bg-black max-h-[100vh] overflow-hidden'>
       {songsData.length !== 0 ? (
         <>
           <div className=' flex '>
