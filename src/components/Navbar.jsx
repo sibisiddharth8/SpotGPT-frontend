@@ -3,7 +3,7 @@ import { assets } from '../assets/assets';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-const Navbar = ({ showDetails = true }) => {
+const Navbar = ({ showDetails = true, showBackIcon = true, showForwardIcon = true }) => {
 
   const poftfolioLink = 'https://sibisiddharth8.github.io/portfolio-react/';
   const navigate = useNavigate();
@@ -12,18 +12,18 @@ const Navbar = ({ showDetails = true }) => {
     <div className=''>
       <div className="w-full flex justify-between items-center font-semibold pt-1.5 pb-1.5">
         <div className="flex items-center gap-2">
-          <img
+          {showBackIcon && (<img
             onClick={() => navigate(-1)}
             className="w-8 bg-black p-2 rounded-2xl cursor-pointer"
             src={assets.arrow_left}
             alt="Back"
-          />
-          <img
+          />)}
+          {showForwardIcon && (<img
             onClick={() => navigate(+1)}
             className="w-8 bg-black p-2 rounded-2xl cursor-pointer"
             src={assets.arrow_right}
             alt="Forward"
-          />
+          />)}
         </div>
         <div className="flex items-center gap-4">
           <p className="bg-white text-black text-[15px] px-4 py-1 rounded-2xl hidden md:block cursor-pointer">

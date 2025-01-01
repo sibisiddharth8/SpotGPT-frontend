@@ -34,7 +34,7 @@ const DisplayAlbum = () => {
   return albumData ? (
     <>
       <div className='sticky top-0 z-50 bg-[#121212] bg-opacity-60 pl-5 pr-5 p-3 rounded-full'>
-        <Navbar showDetails={false} />
+        <Navbar showDetails={false} showForwardIcon={false} />
       </div>
       
       <div className="mt-10 flex gap-8 flex-col md:flex-row md:items-end">
