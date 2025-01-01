@@ -25,15 +25,18 @@ const Display = () => {
 
   return (
     <div ref={displayRef} className='w-[100%] h-[100vh] m-2 px-4 sm:px-10 pt-4 rounded bg-[#121212] text-white overflow-auto lg:w-[75%] lg:ml-0'>
+      {albumsData.length > 0 
+      ?
       <Routes>
         <Route path='/' element={<DisplayHome/>} />
         <Route path='/album/:id' element={<DisplayAlbum album={albumsData.find((x)=>(x._id))}/>} />
       </Routes>
-      <div className='text-center mb-[90px] text-[12px]'>
+      : null
+    }
+    <div className='text-center mb-[90px] text-[12px]'>
         Designed and Developed by <a href='https://sibisiddharth8.github.io/portfolio-react/' className='text-[12px] font-bold cursor-pointer text-nowrap'> © Sibi Siddharth S</a>
       </div>
     </div>
-    
   )
 }
 
