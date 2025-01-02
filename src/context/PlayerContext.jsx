@@ -6,8 +6,8 @@ export const PlayerContext = createContext();
 
 const PlayerContextProvider = ({ children }) => {
   const audioRef = useRef(new Audio());
-  const seekBg = useRef();
-  const seekBar = useRef();
+  const seekBg = useRef(null);
+  const seekBar = useRef(null);
 
   const url = import.meta.env.VITE_API_URL;
 
@@ -35,6 +35,13 @@ const PlayerContextProvider = ({ children }) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (track) {
+      localStorage.setItem('track', JSON.stringify(track));
+      localStorage.setItem('time', JSON.stringify(time));
+    }
+  }, [track, time]);
+
   // Update the time when the song is loaded
   useEffect(() => {
     if (audioRef.current) {
@@ -53,10 +60,12 @@ const PlayerContextProvider = ({ children }) => {
       audioRef.current.ontimeupdate = () => {
         const current = audioRef.current.currentTime;
         const duration = audioRef.current.duration || 0;
-        const  progress = (current / duration) * 100;
-  
-        seekBar.current.style.width = progress + '%';
-  
+        const progress = (current / duration) * 100;
+      
+        if (seekBar.current) {
+          seekBar.current.style.width = progress + '%';
+        }
+      
         setTime({
           currentTime: {
             second: Math.floor(current % 60),
@@ -67,12 +76,12 @@ const PlayerContextProvider = ({ children }) => {
             minute: Math.floor(duration / 60),
           },
         });
-  
+      
         if (progress >= 100) {
           next();
         }
       };
-  
+      
       // Update the time in localStorage
       localStorage.setItem('time', JSON.stringify({ 
         currentTime: { minute: Math.floor(audioRef.current.currentTime / 60), second: Math.floor(audioRef.current.currentTime % 60) }, 
@@ -174,14 +183,25 @@ const PlayerContextProvider = ({ children }) => {
 
   // Seek the song
   const seekSong = (e) => {
-    const seekPosition = (e.nativeEvent.offsetX / seekBg.current.offsetWidth)
+    let seekPosition;
+  
+    if (e.type === 'touchmove' || e.type === 'touchstart') {
+      const touch = e.touches[0];
+      const rect = seekBg.current.getBoundingClientRect();
+      seekPosition = (touch.clientX - rect.left) / rect.width;
+    } else if (e.type === 'click') {
+      seekPosition = e.nativeEvent.offsetX / seekBg.current.offsetWidth;
+    }
+  
+    seekPosition = Math.max(0, Math.min(1, seekPosition)); // Clamp between 0 and 1
     const newTime = seekPosition * audioRef.current.duration;
+  
     audioRef.current.currentTime = newTime;
     setTime({
       currentTime: { minute: Math.floor(newTime / 60), second: Math.floor(newTime % 60) },
-      totalTime: time.totalTime
+      totalTime: time.totalTime,
     });
-  };
+  };  
 
   // Get the songs data
   const getSongsData = async () => {
@@ -192,7 +212,6 @@ const PlayerContextProvider = ({ children }) => {
       console.error(error);
     }
   };
-
 
   // Get the albums data
   const getAlbumsData = async () => {
