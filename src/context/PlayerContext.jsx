@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 
 export const PlayerContext = createContext();
 
-const PlayerContextProvider = (props) => {
+const PlayerContextProvider = ({ children }) => {
   const audioRef = useRef(new Audio());
   const seekBg = useRef();
   const seekBar = useRef();
@@ -13,7 +13,7 @@ const PlayerContextProvider = (props) => {
 
   const [songsData, setSongsData] = useState([]);
   const [albumsData, setAlbumsData] = useState([]);
-  const [track, setTrack] = useState(songsData[0]);
+  const [track, setTrack] = useState(null);
   const [playStatus, setPlayStatus] = useState(false);
   const [currentAlbum, setCurrentAlbum] = useState(null);
   const [time, setTime] = useState({
@@ -21,6 +21,79 @@ const PlayerContextProvider = (props) => {
     totalTime: { second: 0, minute: 0 },
   });
 
+  // Save the current track and time in localStorage
+  useEffect(() => {
+    const savedTrack = JSON.parse(localStorage.getItem('track'));
+    const savedTime = JSON.parse(localStorage.getItem('time'));
+    if (savedTrack) {
+      setTrack(savedTrack);
+      audioRef.current.src = savedTrack.file; 
+      setTime(savedTime || { currentTime: { minute: 0, second: 0 }, totalTime: { minute: 0, second: 0 } });
+      if (savedTime) {
+        audioRef.current.currentTime = savedTime.currentTime.minute * 60 + savedTime.currentTime.second;
+      }
+    }
+  }, []);
+
+  // Update the time when the song is loaded
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.onloadedmetadata = () => {
+        const duration = audioRef.current.duration || 0;
+  
+        setTime((prevTime) => ({
+          ...prevTime,
+          totalTime: {
+            minute: Math.floor(duration / 60),
+            second: Math.floor(duration % 60),
+          },
+        }));
+      };
+  
+      audioRef.current.ontimeupdate = () => {
+        const current = audioRef.current.currentTime;
+        const duration = audioRef.current.duration || 0;
+        const  progress = (current / duration) * 100;
+  
+        seekBar.current.style.width = progress + '%';
+  
+        setTime({
+          currentTime: {
+            second: Math.floor(current % 60),
+            minute: Math.floor(current / 60),
+          },
+          totalTime: {
+            second: Math.floor(duration % 60),
+            minute: Math.floor(duration / 60),
+          },
+        });
+  
+        if (progress >= 100) {
+          next();
+        }
+      };
+  
+      // Update the time in localStorage
+      localStorage.setItem('time', JSON.stringify({ 
+        currentTime: { minute: Math.floor(audioRef.current.currentTime / 60), second: Math.floor(audioRef.current.currentTime % 60) }, 
+        totalTime: { minute: Math.floor(audioRef.current.duration / 60), second: Math.floor(audioRef.current.duration % 60) },
+       }));
+    }
+  }, [audioRef, track, songsData, audioRef.current.currentTime]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      setPlayStatus(false); 
+    }
+  }, []);
+
+  useEffect(() => {
+    getSongsData();
+    getAlbumsData();
+  }, []);
+
+  // Play function
   const play = () => {
     if (audioRef.current) {
       audioRef.current.play();
@@ -28,6 +101,7 @@ const PlayerContextProvider = (props) => {
     }
   };
 
+  // Pause function
   const pause = () => {
     if (audioRef.current) {
       audioRef.current.pause();
@@ -35,18 +109,18 @@ const PlayerContextProvider = (props) => {
     }
   };
 
-  const playWithId = async (id) => {
-    await songsData.map((item) => {
-      if (id === item._id) {
-        setTrack(item);
-        setCurrentAlbum(item.album);
-      }
-    });
-    await audioRef.current.play();
+
+  // Play a song with a specific id
+  const playWithId = (id) => {
+    const selectedTrack = songsData.find((song) => song._id === id);
+    setTrack(selectedTrack);
+    audioRef.current.src = selectedTrack.file;
+    audioRef.current.play();
     setPlayStatus(true);
+    localStorage.setItem('track', JSON.stringify(selectedTrack));
   };
 
-  // Function to get the next song based on the current album
+  // next function
   const next = async () => {
     let nextTrack;
     if (currentAlbum) {
@@ -66,13 +140,13 @@ const PlayerContextProvider = (props) => {
     }
 
     if (nextTrack) {
-      await setTrack(nextTrack); // Set the next song
+      await setTrack(nextTrack);
       await audioRef.current.play();
       setPlayStatus(true);
     }
   };
 
-  // Function to get the previous song based on the current album
+  // previous function
   const previous = async () => {
     let previousTrack;
     if (currentAlbum) {
@@ -98,20 +172,29 @@ const PlayerContextProvider = (props) => {
     }
   };
 
-  const seekSong = async (e) => {
-    audioRef.current.currentTime = (e.nativeEvent.offsetX / seekBg.current.offsetWidth) * audioRef.current.duration;
+  // Seek the song
+  const seekSong = (e) => {
+    const seekPosition = (e.nativeEvent.offsetX / seekBg.current.offsetWidth)
+    const newTime = seekPosition * audioRef.current.duration;
+    audioRef.current.currentTime = newTime;
+    setTime({
+      currentTime: { minute: Math.floor(newTime / 60), second: Math.floor(newTime % 60) },
+      totalTime: time.totalTime
+    });
   };
 
+  // Get the songs data
   const getSongsData = async () => {
     try {
       const response = await axios.get(`${url}/api/song/list`);
       setSongsData(response.data.songs);
-      setTrack(response.data.songs[0]);
     } catch (error) {
       console.error(error);
     }
   };
 
+
+  // Get the albums data
   const getAlbumsData = async () => {
     try {
       const response = await axios.get(`${url}/api/album/list`);
@@ -120,45 +203,6 @@ const PlayerContextProvider = (props) => {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      setPlayStatus(false); 
-    }
-  }, []);
-
-  useEffect(() => {
-    getSongsData();
-    getAlbumsData();
-  }, []);
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.ontimeupdate = () => {
-        const current = audioRef.current.currentTime;
-        const duration = audioRef.current.duration || 0;
-        const progress = (current / duration) * 100;
-
-        seekBar.current.style.width = progress + '%';
-
-        setTime({
-          currentTime: {
-            second: Math.floor(current % 60),
-            minute: Math.floor(current / 60),
-          },
-          totalTime: {
-            second: Math.floor(duration % 60),
-            minute: Math.floor(duration / 60),
-          },
-        });
-
-        if (progress >= 100) {
-          next();
-        }
-      };
-    }
-  }, [audioRef, track, songsData]);
 
   const contextValue = {
     audioRef,
@@ -182,7 +226,7 @@ const PlayerContextProvider = (props) => {
 
   return (
     <PlayerContext.Provider value={contextValue}>
-      {props.children}
+      {children}
     </PlayerContext.Provider>
   );
 };

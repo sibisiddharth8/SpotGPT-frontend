@@ -15,29 +15,29 @@ const App = () => {
 
   return (
     <div className='bg-black max-h-[100vh] overflow-hidden'>
-      {songsData.length !== 0 ? (
-        <>
-          <div className=' flex '>
-            <Sidebar />
-            <Display />
-          </div>
-          <Player />
-        </>
-      ) : null}
+  {songsData.length !== 0 ? (
+    <>
+      <div className='flex'>
+        <Sidebar />
+        <Display />
+      </div>
+      {track && <Player />}
+    </>
+  ) : null}
 
-      <audio
-        ref={audioRef}
-        preload='auto'
-        src={track ? track.file : ""}
-        onEnded={() => next(track._id)}
-        onLoadedData={() => {
-          if (playStatus) {
-            audioRef.current.play();
-          }
-        }}
-      >
-      </audio>
-    </div>
+<audio
+  ref={audioRef}
+  preload='auto'
+  src={track ? track.file : ""}
+  onEnded={() => next(track?._id)}
+  onLoadedData={() => {
+    if (playStatus && track) {
+      audioRef.current.play();
+    }
+  }}
+></audio>
+</div>
+
   )
 }
 
