@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = ({ showDetails = true, showBackIcon = true, showForwardIcon = true }) => {
 
-  const poftfolioLink = 'https://sibisiddharth8.github.io/portfolio-react/';
+  const spotifyProfile = 'https://open.spotify.com/user/31ynzm4mmrjgxdp4hia4lvrrc6xi?si=80b73ca6d64b47b4';
   const navigate = useNavigate();
 
   return (
@@ -34,7 +34,7 @@ const Navbar = ({ showDetails = true, showBackIcon = true, showForwardIcon = tru
             Install App
           </p>
 
-          <Link className="bg-purple-500 text-black w-9 h-9 rounded-full flex items-center justify-center hover:cursor-pointer">
+          <Link to={spotifyProfile} className="bg-purple-500 text-black w-9 h-9 rounded-full flex items-center justify-center hover:cursor-pointer">
             S
           </Link>
         </div>

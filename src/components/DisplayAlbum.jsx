@@ -33,11 +33,11 @@ const DisplayAlbum = () => {
 
   return albumData ? (
     <>
-      <div className='sticky top-0 z-50 bg-[#121212] bg-opacity-60 pl-5 pr-5 p-3 rounded-full'>
+      <div className='sticky top-0 z-50 bg-[#121212] bg-opacity-60 px-5 p-3 rounded-full'>
         <Navbar showDetails={false} showForwardIcon={false} />
       </div>
       
-      <div className="mt-10 flex gap-8 flex-col md:flex-row md:items-end">
+      <div className="mt-5 flex gap-8 flex-col md:flex-row md:items-end">
         <img className="w-48 rounded" src={albumData.image} alt="" />
         <div className="flex flex-col">
           <p>Playlist</p>
@@ -50,13 +50,13 @@ const DisplayAlbum = () => {
           <b className="text-[14px] font-medium m-1">{albumSongs.length} songs, about {displayDuration}</b> 
         </div>
       </div>
-      <div className="grid grid-cols-[2fr_1fr] sm:grid-cols-3 mt-8 sm:mt-10 mb-4 pl-2 text-[#a7a7a7]">
+      <div className="grid grid-cols-[3fr_1fr] md:grid-cols-3 mt-8 sm:mt-10 mb-4 pl-2 text-[#a7a7a7]">
         <p>
           <b className="mr-4">#</b>
           <b className="ml-2">Title</b>
         </p>
   
-        <p className="hidden sm:block">Date Added</p>
+        <p className="hidden md:block">Date Added</p>
         <img className="m-auto w-4" src={assets.clock_icon} alt="" />
       </div>
       <hr className='mb-2'/>
@@ -64,19 +64,19 @@ const DisplayAlbum = () => {
         <div
           onClick={() => playWithId(item._id)}
           key={index}
-          className="grid grid-cols-[2fr_1fr] sm:grid-cols-3 gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer rounded"
+          className="grid grid-cols-[3fr_1fr] md:grid-cols-3 gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer rounded"
         >
-          <p className="text-white w-[23ch] truncate sm:w-full">
+          <p className="text-white w-[25ch] truncate md:w-[30ch]">
             <b className="mr-2 text-[#a7a7a7] inline-block text-start w-[3ch]">{index + 1}</b>
             <img className="inline w-10 h-10 mr-5 object-cover rounded" src={item.image} alt="" />
             {item.name}
           </p>
  
-          <p className="text-[15px] hidden sm:block">5 days ago</p>
+          <p className="text-[15px] hidden md:block">5 days ago</p>
           <p className="text-[15px] text-center">{item.duration}</p>
         </div>
       ))}
-      <div className='mb-20'></div>
+      <div className='mb-10'></div>
     </>
   ) : null;
 };
