@@ -33,7 +33,7 @@ const Display = () => {
       </Routes>
       : null
     }
-    <div className='text-center mb-[90px] text-[12px]'>
+      <div className='text-center mb-[90px] text-[12px]'>
         Designed and Developed by <a href='https://sibisiddharth8.github.io/portfolio-react/' className='text-[12px] font-bold cursor-pointer text-nowrap'> © Sibi Siddharth S</a>
       </div>
     </div>
