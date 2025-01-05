@@ -20,6 +20,8 @@ const PlayerContextProvider = ({ children }) => {
     currentTime: { second: 0, minute: 0 },
     totalTime: { second: 0, minute: 0 },
   });
+  const [isShuffle, setIsShuffle] = useState(false);
+  const [isLoop, setIsLoop] = useState(false);
 
   // Save the current track and time in localStorage
   useEffect(() => {
@@ -118,7 +120,6 @@ const PlayerContextProvider = ({ children }) => {
     }
   };
 
-
   // Play a song with a specific id
   const playWithId = (id) => {
     const selectedTrack = songsData.find((song) => song._id === id);
@@ -129,57 +130,89 @@ const PlayerContextProvider = ({ children }) => {
     localStorage.setItem('track', JSON.stringify(selectedTrack));
   };
 
-  // next function
-  const next = async () => {
-    let nextTrack;
-    if (currentAlbum) {
-      // Filter songs by the current album
-      const albumSongs = songsData.filter((song) => song.album === currentAlbum);
-      const currentIndex = albumSongs.findIndex((song) => song._id === track._id);
-
-      if (currentIndex >= 0 && currentIndex < albumSongs.length - 1) {
-        nextTrack = albumSongs[currentIndex + 1];
-      }
-    } else {
-      // Normal behavior when no album is selected (use full song list)
-      const currentIndex = songsData.findIndex((song) => song._id === track._id);
-      if (currentIndex >= 0 && currentIndex < songsData.length - 1) {
-        nextTrack = songsData[currentIndex + 1];
-      }
-    }
-
-    if (nextTrack) {
-      await setTrack(nextTrack);
-      await audioRef.current.play();
-      setPlayStatus(true);
-    }
+  // Toggle shuffle mode
+  const toggleShuffle = () => {
+    setIsShuffle((prev) => !prev);
   };
 
-  // previous function
-  const previous = async () => {
-    let previousTrack;
-    if (currentAlbum) {
-      
-      const albumSongs = songsData.filter((song) => song.album === currentAlbum);
-      const currentIndex = albumSongs.findIndex((song) => song._id === track._id);
-
-      if (currentIndex > 0) {
-        previousTrack = albumSongs[currentIndex - 1];
-      }
-    } else {
-      
-      const currentIndex = songsData.findIndex((song) => song._id === track._id);
-      if (currentIndex > 0) {
-        previousTrack = songsData[currentIndex - 1];
-      }
-    }
-
-    if (previousTrack) {
-      await setTrack(previousTrack);
-      await audioRef.current.play();
-      setPlayStatus(true);
-    }
+  // Toggle loop mode
+  const toggleLoop = () => {
+    setIsLoop((prev) => !prev);
   };
+
+//  next function
+const next = async () => {
+  let nextTrack;
+
+  if (isLoop) {
+    // If loop is enabled, restart the current track
+    nextTrack = track;
+  } else if (isShuffle) {
+    // Shuffle mode
+    const shuffledSongs = [...songsData];
+    shuffledSongs.sort(() => Math.random() - 0.5);
+    nextTrack = shuffledSongs.find((song) => song._id !== track._id); // Pick a random song different from the current one
+  } else if (currentAlbum) {
+    // Album mode
+    const albumSongs = songsData.filter((song) => song.album === currentAlbum);
+    const currentIndex = albumSongs.findIndex((song) => song._id === track._id);
+    if (currentIndex >= 0 && currentIndex < albumSongs.length - 1) {
+      nextTrack = albumSongs[currentIndex + 1];
+    }
+  } else {
+    // Normal mode
+    const currentIndex = songsData.findIndex((song) => song._id === track._id);
+    if (currentIndex >= 0 && currentIndex < songsData.length - 1) {
+      nextTrack = songsData[currentIndex + 1];
+    }
+  }
+
+  if (nextTrack) {
+    await setTrack(nextTrack);
+    audioRef.current.src = nextTrack.file;
+    await audioRef.current.play();
+    setPlayStatus(true);
+  }
+};
+
+// previous function
+const previous = async () => {
+  let previousTrack;
+
+  if (isLoop) {
+    // If loop is enabled, restart the current track
+    previousTrack = track;
+  } else if (isShuffle) {
+    // Shuffle mode
+    const shuffledSongs = [...songsData];
+    shuffledSongs.sort(() => Math.random() - 0.5);
+    previousTrack = shuffledSongs.find((song) => song._id !== track._id); // Pick a random song different from the current one
+  } else if (currentAlbum) {
+    // Album mode
+    const albumSongs = songsData.filter((song) => song.album === currentAlbum);
+    const currentIndex = albumSongs.findIndex((song) => song._id === track._id);
+    if (currentIndex > 0) {
+      previousTrack = albumSongs[currentIndex - 1];
+    } else {
+      previousTrack = albumSongs[albumSongs.length - 1];
+    }
+  } else {
+    // Normal mode
+    const currentIndex = songsData.findIndex((song) => song._id === track._id);
+    if (currentIndex > 0) {
+      previousTrack = songsData[currentIndex - 1];
+    } else {
+      previousTrack = songsData[songsData.length - 1]; 
+    }
+  }
+
+  if (previousTrack) {
+    await setTrack(previousTrack);
+    audioRef.current.src = previousTrack.file;
+    await audioRef.current.play();
+    setPlayStatus(true);
+  }
+};
 
   // Seek the song
   const seekSong = (e) => {
@@ -241,6 +274,12 @@ const PlayerContextProvider = ({ children }) => {
     seekSong,
     songsData,
     albumsData,
+    isShuffle,
+    setIsShuffle,
+    toggleShuffle,
+    isLoop,
+    setIsLoop,
+    toggleLoop,
   };
 
   return (

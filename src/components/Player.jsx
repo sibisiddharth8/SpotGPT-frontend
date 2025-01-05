@@ -4,7 +4,7 @@ import { PlayerContext } from '../context/PlayerContext'
 
 const Player = () => {
 
-  const {seekBar, seekBg, playStatus, play, pause, track, time, previous, next, seekSong} = useContext(PlayerContext);
+  const {seekBar, seekBg, playStatus, play, pause, track, time, previous, next, seekSong, isShuffle, toggleShuffle, isLoop, toggleLoop} = useContext(PlayerContext);
   
   return track ? (
     <div className='fixed bottom-0 w-full min-h-[80px] bg-black flex justify-between items-center text-white px-4 z-50'>
@@ -16,15 +16,23 @@ const Player = () => {
       </div>
       <div className='flex flex-col items-center gap-1.5 m-auto'>
             <div className='flex gap-4 pb-2 sm:pt-3 sm:pb-1'>
-                <img className='w-4 m-[1px] cursor-pointer' src={assets.shuffle_icon} alt="" />
-                <img onClick={previous} className='w-4 m-[1px] cursor-pointer' src={assets.prev_icon} alt="" />
-                {
-                  playStatus 
-                  ? <img onClick={pause} className='w-4 m-[1px] cursor-pointer' src={assets.pause_icon} alt="" /> 
-                  : <img onClick={play} className='w-4 m-[1px] cursor-pointer' src={assets.play_icon} alt="" />
-                } 
-                <img onClick={next} className='w-4 m-[1px] cursor-pointer' src={assets.next_icon} alt="" />
-                <img className='w-4 m-[1px] cursor-pointer' src={assets.loop_icon} alt="" />
+              {
+                isShuffle 
+                ?<img onClick={toggleShuffle} className="w-4 m-[1px] cursor-pointer" src={assets.shuffle_icon_active} alt="Shuffle Active" />
+                :<img onClick={toggleShuffle} className="w-4 m-[1px] cursor-pointer" src={assets.shuffle_icon} alt="Shuffle" />
+              }
+              <img onClick={previous} className='w-4 m-[1px] cursor-pointer' src={assets.prev_icon} alt="" />
+              {
+                playStatus 
+                ?<img onClick={pause} className='w-4 m-[1px] cursor-pointer' src={assets.pause_icon} alt="" /> 
+                :<img onClick={play} className='w-4 m-[1px] cursor-pointer' src={assets.play_icon} alt="" />
+              } 
+              <img onClick={next} className='w-4 m-[1px] cursor-pointer' src={assets.next_icon} alt="" />
+              {
+                isLoop
+                ?<img onClick={toggleLoop} className='w-4 m-[1px] cursor-pointer' src={assets.loop_icon_active} alt="" />
+                :<img onClick={toggleLoop} className='w-4 m-[1px] cursor-pointer' src={assets.loop_icon} alt="" />
+              }
             </div>
             <div className='flex items-center gap-5'>
                 <p className='hidden sm:block'>{time.currentTime.minute}:{time.currentTime.second}</p>
