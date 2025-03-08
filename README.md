@@ -21,7 +21,7 @@
 - **Cloud Storage**: Cloudinary
 - **Deployment**: 
   - **Frontend**: GitHub Pages
-  - **Backend**: Railway
+  - **Backend**: Railway / Render
 
 ---
 
@@ -51,7 +51,7 @@ SpotGPT came to life as a **personal solution** to the ad annoyance on Spotifyâ€
 
 ## ğŸŒ Deployment
 - **Frontend**: GitHub Pages 
-- **Backend**: Railway
+- **Backend**: Railway / Render
 
 ---
 
