@@ -9,6 +9,7 @@ const DisplayAlbum = () => {
   const { id } = useParams();
   const [albumData, setAlbumData] = useState('');
   const [selectedSong, setSelectedSong] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
   const { playWithId, albumsData, songsData } = useContext(PlayerContext);
 
   useEffect(() => {
@@ -19,8 +20,14 @@ const DisplayAlbum = () => {
     });
   }, [albumsData, id]);
 
+  // Filter songs for the current album
   const albumSongs = songsData.filter(
     (item) => item.album.toLowerCase() === albumData.name?.toLowerCase()
+  );
+
+  // Filter album songs by search term (case-insensitive)
+  const filteredSongs = albumSongs.filter((song) =>
+    song.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const totalDuration = albumSongs.reduce((acc, song) => {
@@ -32,15 +39,23 @@ const DisplayAlbum = () => {
   const minutes = Math.floor((totalDuration % 3600) / 60);
   const displayDuration = `${hours > 0 ? `${hours} hr` : ''} ${minutes} min`;
 
-  // Open modal when song image is clicked
-  const handleSongImageClick = (song) => {
+  // Open modal when song image is clicked and start playing song
+  const handleSongImageClick = (song, e) => {
+    e.stopPropagation(); // avoid triggering row click if needed
+    playWithId(song._id);
     setSelectedSong(song);
   };
 
   return albumData ? (
     <>
-      <div className="sticky top-0 z-50 bg-[#121212] bg-opacity-60 px-5 p-3 rounded-full">
-        <Navbar showDetails={false} showForwardIcon={false} />
+      <div className="sticky top-0 z-50 bg-[#121212] bg-opacity-60 px-4 py-2 rounded-full">
+        <Navbar 
+          showDetails={false} 
+          showForwardIcon={false} 
+          searchBar={true} 
+          searchTerm={searchTerm}
+          onSearchChange={(e) => setSearchTerm(e.target.value)}
+        />
       </div>
       
       <div className="mt-5 flex gap-8 flex-col md:flex-row md:items-end">
@@ -51,9 +66,13 @@ const DisplayAlbum = () => {
           <h4>{albumData.desc}</h4>
           <p>
             <img className="inline-block w-5 m-1" src={assets.spotGPT_logo} alt="SpotGPT logo" />
-            <b className="text-[14px]">SpotGPT • <span className="text-[14px] font-semibold">1084 likes</span></b> 
+            <b className="text-[14px]">
+              SpotGPT • <span className="text-[14px] font-semibold">1M likes</span>
+            </b> 
           </p>
-          <b className="text-[14px] font-medium m-1">{albumSongs.length} songs, about {displayDuration}</b> 
+          <b className="text-[14px] font-medium m-1">
+            {albumSongs.length} songs, about {displayDuration}
+          </b> 
         </div>
       </div>
       
@@ -66,16 +85,18 @@ const DisplayAlbum = () => {
         <img className="m-auto w-4" src={assets.clock_icon} alt="Clock icon" />
       </div>
       <hr className="mb-2"/>
-      {albumSongs.map((item, index) => (
+      {filteredSongs.map((item, index) => (
         <div
           onClick={() => playWithId(item._id)}
           key={index}
           className="grid grid-cols-[3fr_1fr] md:grid-cols-3 gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer rounded"
         >
           <p className="text-white w-[25ch] truncate md:w-[25ch]">
-            <b className="mr-2 text-[#a7a7a7] inline-block text-start w-[3ch]">{index + 1}</b>
+            <b className="mr-2 text-[#a7a7a7] inline-block text-start w-[3ch]">
+              {index + 1}
+            </b>
             <img 
-              onClick={() => handleSongImageClick(item)}
+              onClick={(e) => handleSongImageClick(item, e)}
               className="inline w-10 h-10 mr-5 object-cover rounded" 
               src={item.image} 
               alt={item.name} 
